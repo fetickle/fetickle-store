@@ -13,18 +13,18 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // ✅ ログインしていなければ /login にリダイレクト
+  // ✅ ログインしていなければ /my-account にリダイレクト
   if (!session) {
-    return NextResponse.redirect(new URL('/login', req.url))
+    return NextResponse.redirect(new URL('/my-account', req.url))
   }
 
   // ✅ ログイン済みならそのまま進める
   return res
 }
 
-// ✅ middleware を適用するルート（login, api, staticファイルなどは除外）
+// ✅ middleware を適用するルート（my-account, api, staticファイルなどは除外）
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|login).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|my-account).*)',
   ],
 }
