@@ -36,16 +36,25 @@ export default function MyPage() {
       }
 
       const { data, error } = await supabase
-        .from('purchases')
-        .select('id, purchased_at, video:video_id (title, price, video_url, thumbnail_url)')
-        .eq('user_id', user.id)
-        .order('purchased_at', { ascending: false })
+  .from('purchases')
+  .select(`
+    id,
+    purchased_at,
+    video:video_id (
+      title,
+      price,
+      video_url,
+      thumbnail_url
+    )
+  `)
+  .eq('user_id', user.id)
+  .order('purchased_at', { ascending: false })
 
-      if (error) {
-        console.error('購入履歴取得失敗', error)
-      } else {
-        setPurchases(data || [])
-      }
+  if (error) {
+    console.error('購入履歴取得失敗', error)
+  } else {
+    setPurchases((data ?? []) as unknown as Purchase[])
+  }
     }
 
     fetchPurchases()
